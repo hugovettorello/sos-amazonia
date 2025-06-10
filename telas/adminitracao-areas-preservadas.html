@@ -4,7 +4,7 @@
   
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Lista de Voluntários</title>
+  <title>Áreas preservadas</title>
   <link rel="stylesheet" href="../Cssadmn.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,7 +22,6 @@
     <a href="./sobre-nos.html">Sobre nós</a>
     <a href="./cadastro-de-voluntarios.html">Voluntário</a>
     <a href="./areas-preservadas.html">ÁREAS PRESERVADAS</a>
-    <a href="./administracao-voluntarios.html">Administrar</a>
   </div>
 </div>
 
@@ -33,31 +32,20 @@
 
   <form id="formCadastro">
     <label>Código:</label>
-    <input type="text" id="codigo" readonly><br>
+    <input type="text" id="ID_Area" readonly><br>
 
     <label>Nome:</label>
-    <input type="text" id="nome"><br>
+    <input type="text" id="Nome"><br>
 
-    <label>Data de Nascimento:</label>
-    <input type="date" id="Data_Nascimento"><br>
+    <label>Descrição:</label>
+    <input type="text" id="descricao"><br>
 
-    <label>CPF:</label>
-    <input type="text" id="CPF"><br>
+    <label>Cidade:</label>
+    <input type="text" id="cidade"><br>
 
-    <label>Endereço:</label>
-    <input type="text" id="Endereco"><br>
+    <label>Estado:</label>
+    <input type="text" id="estado"><br>
 
-    <label>Telefone:</label>
-    <input type="text" id="Telefone"><br>
-
-    <label>Email:</label>
-    <input type="email" id="Email"><br>
-
-    <label>Data de Cadastro:</label>
-    <input type="date" id="Data_Cadastro"><br>
-
-    <label>Cargo:</label>
-    <input type="text" id="Cargo"><br><br>
 
     <button type="button" id="btSalvar">Salvar</button>
     <button type="button" id="btAlterar">Alterar</button>
@@ -69,7 +57,7 @@
   <table border="1">
     <thead>
       <tr>
-        <th>ID</th><th>Nome</th><th>Nascimento</th><th>CPF</th><th>Endereço</th><th>Telefone</th><th>Email</th><th>Cadastro</th><th>Cargo</th>
+        <th>ID</th><th>Nome</th><th>Descrição</th><th>Cidade</th><th>Estado</th>
       </tr>
     </thead>
     <tbody id="sosmataatlantica">
@@ -79,7 +67,7 @@
   </div>
 </div>
   <script>
-    const endpoint = 'http://localhost/sosmataatlantica/API/api/Voluntarios';
+    const endpoint = 'http://localhost/sosmataatlantica/API/api/areas_preservadas';
 
     function carregarDados() {
       $.ajax({
@@ -93,33 +81,26 @@
           const dados = resposta.retorno?.data;
 
           if (!Array.isArray(dados) || dados.length === 0) {
-            tabela.html('<tr><td colspan="9">Nenhum voluntário cadastrado.</td></tr>');
+            tabela.html('<tr><td colspan="9">Nenhuma area vonluntaria cadastrada.</td></tr>');
             return;
           }
 
           dados.forEach(item => {
-            tabela.append(`
-              <tr class="linha-dado"
-                  data-id="${item.ID_voluntario}"
-                  data-nome="${item.Nome}"
-                  data-nasc="${item.Data_Nascimento}"
-                  data-cpf="${item.CPF}"
-                  data-endereco="${item.Endereco}"
-                  data-tel="${item.Telefone}"
-                  data-email="${item.Email}"
-                  data-cadastro="${item.Data_Cadastro}"
-                  data-cargo="${item.Cargo}">
-                <td>${item.ID_voluntario}</td>
-                <td>${item.Nome}</td>
-                <td>${item.Data_Nascimento}</td>
-                <td>${item.CPF}</td>
-                <td>${item.Endereco}</td>
-                <td>${item.Telefone}</td>
-                <td>${item.Email}</td>
-                <td>${item.Data_Cadastro}</td>
-                <td>${item.Cargo}</td>
-              </tr>
-            `);
+          tabela.append(`
+            <tr class="linha-dado"
+                data-id="${item.ID_Area}"
+                data-nome="${item.Nome}"
+                data-descricao="${item.descricao}"
+                data-cidade="${item.cidade}"
+                data-estado="${item.estado}">
+              <td>${item.ID_Area}</td>
+              <td>${item.Nome}</td>
+              <td>${item.descricao}</td>
+              <td>${item.cidade}</td>
+              <td>${item.estado}</td>
+            </tr>
+          `);
+
           });
         },
         error: function () {
@@ -128,21 +109,18 @@
       });
     }
 
-    function preencherCampos(elemento) {
-      $('#codigo').val(elemento.data('id'));
-      $('#nome').val(elemento.data('nome'));
-      $('#Data_Nascimento').val(elemento.data('nasc'));
-      $('#CPF').val(elemento.data('cpf'));
-      $('#Endereco').val(elemento.data('endereco'));
-      $('#Telefone').val(elemento.data('tel'));
-      $('#Email').val(elemento.data('email'));
-      $('#Data_Cadastro').val(elemento.data('cadastro'));
-      $('#Cargo').val(elemento.data('cargo'));
-    }
+      function preencherCampos(elemento) {
+        $('#ID_Area').val(elemento.data('id'));
+        $('#Nome').val(elemento.data('nome')); // CORRIGIDO aqui
+        $('#descricao').val(elemento.data('descricao'));
+        $('#cidade').val(elemento.data('cidade'));
+        $('#estado').val(elemento.data('estado'));
+      }
+
 
     function limparFormulario() {
       $('#formCadastro')[0].reset();
-      $('#codigo').val('');
+      $('#ID_Area').val('');
     }
 
     function mostrarMensagem(msg) {
@@ -151,14 +129,10 @@
 
     function obterDadosFormulario() {
       return {
-        Nome: $('#nome').val(),
-        Data_Nascimento: $('#Data_Nascimento').val(),
-        CPF: $('#CPF').val(),
-        Endereco: $('#Endereco').val(),
-        Telefone: $('#Telefone').val(),
-        Email: $('#Email').val(),
-        Data_Cadastro: $('#Data_Cadastro').val(),
-        Cargo: $('#Cargo').val()
+        Nome: $('#Nome').val(),
+        descricao: $('#descricao').val(),
+        cidade: $('#cidade').val(),
+        estado: $('#estado').val(),
       };
     }
 
@@ -169,47 +143,65 @@
         contentType: 'application/json',
         data: JSON.stringify(obterDadosFormulario()),
         success: res => {
-          mostrarMensagem(res.mensagem || 'Voluntário cadastrado com sucesso!');
+          mostrarMensagem(res.mensagem || 'Area preservada cadastrada com sucesso!');
           limparFormulario();
           carregarDados();
         },
-        error: () => mostrarMensagem('Erro ao inserir voluntário.')
+        error: () => mostrarMensagem('Erro ao inserir Area preservada.')
       });
     }
 
-    function alterarDados() {
-      const id = $('#codigo').val();
-      if (!id) return mostrarMensagem('Selecione um voluntário para alterar.');
+function alterarDados() {
+  const id = $('#ID_Area').val(); // Corrigido aqui
+  if (!id) return mostrarMensagem('Selecione uma Área preservada para alterar.');
 
-      $.ajax({
-        url: `${endpoint}/${id}`,
-        method: 'PUT',
-        contentType: 'application/json',
-        data: JSON.stringify(obterDadosFormulario()),
-        success: res => {
-          mostrarMensagem(res.mensagem || 'Voluntário alterado com sucesso!');
-          limparFormulario();
-          carregarDados();
-        },
-        error: () => mostrarMensagem('Erro ao alterar voluntário.')
-      });
-    }
+  $.ajax({
+    url: `${endpoint}/${id}`,
+    method: 'PUT',
+    contentType: 'application/json',
+    data: JSON.stringify(obterDadosFormulario()),
+    success: res => {
+      mostrarMensagem(res.mensagem || 'Área preservada alterada com sucesso!');
+      limparFormulario();
+      carregarDados();
+    },
+    error: () => mostrarMensagem('Erro ao alterar Área.')
+  });
+}
 
-    function excluirDados() {
-      const id = $('#codigo').val();
-      if (!id) return mostrarMensagem('Selecione um voluntário para excluir.');
+      function alterarDados() {
+        const id = $('#ID_Area').val(); // Corrigido aqui
+        if (!id) return mostrarMensagem('Selecione uma Área preservada para alterar.');
 
-      $.ajax({
-        url: `${endpoint}/${id}`,
-        method: 'DELETE',
-        success: res => {
-          mostrarMensagem(res.mensagem || 'Voluntário excluído com sucesso!');
-          limparFormulario();
-          carregarDados();
-        },
-        error: () => mostrarMensagem('Erro ao excluir voluntário.')
-      });
-    }
+        $.ajax({
+          url: `${endpoint}/${id}`,
+          method: 'PUT',
+          contentType: 'application/json',
+          data: JSON.stringify(obterDadosFormulario()),
+          success: res => {
+            mostrarMensagem(res.mensagem || 'Área preservada alterada com sucesso!');
+            limparFormulario();
+            carregarDados();
+          },
+          error: () => mostrarMensagem('Erro ao alterar Área.')
+        });
+      }
+
+      function excluirDados() {
+        const id = $('#ID_Area').val(); // Corrigido aqui
+        if (!id) return mostrarMensagem('Selecione uma Área preservada para excluir.');
+
+        $.ajax({
+          url: `${endpoint}/${id}`,
+          method: 'DELETE',
+          success: res => {
+            mostrarMensagem(res.mensagem || 'Área excluída com sucesso!');
+            limparFormulario();
+            carregarDados();
+          },
+          error: () => mostrarMensagem('Erro ao excluir Área.')
+        });
+      }
 
     // Eventos
     $(document).ready(() => {

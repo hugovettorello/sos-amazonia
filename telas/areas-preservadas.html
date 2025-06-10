@@ -17,12 +17,76 @@
    <a href="/telas/sobre-nos.html">Sobre nós</a>
     <a href="/telas/cadastro-de-voluntarios.html">Voluntário</a>
     <a href="/telas/areas-preservadas.html">ÁREAS PRESERVADAS</a>
-    <a href="/telas/adminitracao-areas-preservadas.html">Administrar</a>
+    <a href="/telas/adminitracao-areas-preservadas.html">Administrar ÁreaS preservadas</a>
   </div>
   <body>
-    
 
 
+  <div class="bloco-formulario">
+  <h2>Administrar cadastro de Áreas Preservadas</h2>
+  <div id="alerta"></div>
+
+  <form id="formCadastro">
+    <label>Código:</label>
+    <input type="text" id="ID_Area" readonly><br>
+
+    <label>Nome:</label>
+    <input type="text" id="Nome"><br>
+
+    <label>Descrição:</label>
+    <input type="text" id="descricao"><br>
+
+    <label>Cidade:</label>
+    <input type="text" id="cidade"><br>
+
+    <label>Estado:</label>
+    <input type="text" id="estado"><br>    
+
+          <button type="button" id="btSalvar">Salvar</button>
+        <button type="button" id="btLimpar">Limpar</button>
+      </form>
+  </div>
+ <script>
+    const endpoint = 'http://localhost/sosmataatlantica/API/api/areas_preservadas';
+
+    function mostrarMensagem(msg) {
+      $('#alerta').html(`<p><strong>${msg}</strong></p>`);
+    }
+
+    function limparFormulario() {
+      $('#formCadastro')[0].reset();
+      $('#codigo').val('');
+    }
+
+    function obterDadosFormulario() {
+      return {
+        Nome: $('#Nome').val(),
+        descricao: $('#descricao').val(),
+        cidade: $('#cidade').val(),
+        estado: $('#estado').val(),
+      };
+    }
+
+    function inserirDados() {
+      $.ajax({
+        url: endpoint + '/',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(obterDadosFormulario()),
+        success: res => {
+          mostrarMensagem(res.mensagem || 'Voluntário cadastrado com sucesso!');
+          limparFormulario();
+        },
+        error: () => mostrarMensagem('Erro ao inserir voluntário.')
+      });
+    }
+
+    // Eventos
+    $(document).ready(() => {
+      $('#btSalvar').click(() => inserirDados());
+      $('#btLimpar').click(() => limparFormulario());
+    });
+  </script>
     
   </body>
   </html>
