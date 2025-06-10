@@ -237,3 +237,20 @@ table tbody tr:hover {
 .rodape b {
   font-weight: bold;
 }
+/* Estilo para o link "Doe para ONG" */
+.botao-doacao {
+  display: inline-block; /* Torna o link um bloco inline */
+  padding: 10px 20px; /* Espaçamento interno do botão */
+  background-color: rgb(0, 0, 0); /* Cor de fundo amarela */
+  color: #000000; /* Cor do texto */
+  font-weight: bold; /* Deixa o texto em negrito */
+  text-decoration: none; /* Remove o sublinhado do link */
+  border-radius: 8px; /* Borda arredondada */
+  text-align: center; /* Alinha o texto ao centro */
+  transition: background-color 0.3s, color 0.3s; /* Adiciona um efeito suave de transição */
+}
+
+.botao-doacao:hover {
+  background-color: #fbc02d; /* Cor de fundo mais escura quando passa o mouse */
+  color: #000000; /* Cor do texto permanece preta */
+}
