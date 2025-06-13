@@ -5,7 +5,7 @@
 /* Cabeçalho harmonizado */
 #cabecalho {
   width: 100%;
-  background-color: #36a5a0; /* cor igual da imagem */
+  background-color: #36a5a0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -134,7 +134,7 @@ table tbody tr:hover {
   gap: 30px;
   align-items: flex-start;
   flex-wrap: wrap;
-  padding: 0 30px; /* espaçamento à esquerda e à direita */
+  padding: 0 30px; 
 }
 
 
@@ -232,8 +232,26 @@ table tbody tr:hover {
   font-size: 14px;
   background-color: #f0f0f0;
   color: #333;
+  margin-top: auto; 
 }
 
 .rodape b {
   font-weight: bold;
+}
+/* Estilo para o link "Doe para ONG" */
+.botao-doacao {
+  display: inline-block; 
+  padding: 10px 20px; 
+  background-color: rgb(0, 0, 0); 
+  color: #000000; 
+  font-weight: bold; 
+  text-decoration: none; 
+  border-radius: 8px; 
+  text-align: center; 
+  transition: background-color 0.3s, color 0.3s; 
+}
+
+.botao-doacao:hover {
+  background-color: #fbc02d; 
+  color: #000000;
 }
